@@ -1,10 +1,10 @@
 # WinniIO Scripts
 
-The following provides directions to deploying either a _Kafka_ or _gRPC_ consumer for WinniIO. 
+The following provides directions for deploying either a _Kafka_ or _gRPC_ consumer for WinniIO. 
 This document will cover: 
 1. adding repository as a docker volume 
 2. deploying _Kafka_ consumer 
-3. deploying _gRPC_ consumer 
+3. deploying _gRPC_ client 
 
 ### File Structure 
 ```tree
