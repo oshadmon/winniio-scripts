@@ -92,7 +92,8 @@ get msg client
 # see amount of data coming in 
 get streaming 
 
-# see 
+# see data stored into Operator
+get operator
 ```
 
 
