@@ -45,7 +45,7 @@ kafka_reset = earliest
 topic = pilback.data
 
 :declare-policy:
-process policy.al
+process  winnio-scripts/policy.al
 
 :run-policy:
 on error cal kafka-error

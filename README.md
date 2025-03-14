@@ -55,7 +55,7 @@ services:
       - ${NODE_NAME}-blockchain:/app/AnyLog-Network/blockchain
       - ${NODE_NAME}-data:/app/AnyLog-Network/data
       - ${NODE_NAME}-local-scripts:/app/deployment-scripts
-      - ${HOME}/winnio-scripts:/app/winnio-scripts  # Mount local directory
+      - ${HOME}/winnio-scripts:/app/winnio-scripts  # Mount local directory - make sure to have a full path for ${HOME} value
 
 volumes:
   ${NODE_NAME}-anylog:
