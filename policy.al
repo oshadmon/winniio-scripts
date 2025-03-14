@@ -8,7 +8,7 @@ set create_policy = true
 
 :check-policy:
 is_policy = blockchain get mapping where id = !policy_id
-if !is_policy then goto run-policy
+if !is_policy then goto end-script
 else if not !is_policy and !create_policy == false then goto policy-error
 
 :declare-policy:

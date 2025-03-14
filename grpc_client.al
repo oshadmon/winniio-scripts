@@ -1,43 +1,50 @@
+on error ignore
+
 :set-params:
-grpc_client_ip = kubearmor.kubearmor.svc.cluster.local
+grpc_client_ip = 127.0.0.1
 grpc_client_port = 32767
-grpc_dir = !anylog_path/deployment-scripts/grpc/kubearmor/
+grpc_dir = /app/winnio-scripts
 grpc_proto = winniio
 grpc_value = (Filter = all)
 grpc_limit = 0
 set grpc_ingest = true
 set grpc_debug = false
 
-grpc_service = LogService
-grpc_request = RequestMessage
-
-set alert_flag_1 = false
-set alert_level = 0
-ingestion_alerts = ''
-table_name = bring [Operation]
-
-# set default_dbms = kubearmor
-# set company_name = kubearmor
+grpc_service = Greeter
+grpc_request = MessageRequest
+grpc_function = StreamingMessage
+grpc_response = message
 
 
+:set-policy:
+process  winnio-scripts/policy.al
 
-:run-grpc-client:
-grpc_name = kubearmor-message
-grpc_function = WatchMessages
-grpc_response = Message
+:grpc-client:
+on error goto grpc-client-error
+<run grpc client where
+    ip = !grpc_client_ip and port = !grpc_client_port and
+    name = !policy_id and
+    grpc_dir = !grpc_dir and
+    proto = !grpc_proto and
+    function = !grpc_function and
+    request = !grpc_request and
+    response = !grpc_response and
+    service = !grpc_service and
+    value = !grpc_value and
+    policy = !policy_id and
+    dbms = !default_dbms and
+    table = !table_name and
+    debug = !grpc_debug and
+    ingest = !grpc_ingest and
+    limit = !grpc_limit
+>
 
-process !anylog_path/deployment-scripts/grpc/kubearmor/kubearmor_message.al
-process !anylog_path/deployment-scripts/grpc/kubearmor/grpc_client.al
+:end-script;
+end script
 
-grpc_name = kubearmor-alert
-grpc_function = WatchAlerts
-grpc_response = Alert
+:grpc-client-error:
+echo Failed to set gRPC client
+goto end-script
 
-process !anylog_path/deployment-scripts/grpc/kubearmor/kubearmor_alert.al
-process !anylog_path/deployment-scripts/grpc/kubearmor/grpc_client.al
 
-grpc_name = kubearmor-logs
-grpc_function = WatchLogs
-grpc_response = Logs
-process !anylog_path/deployment-scripts/grpc/kubearmor/kubearmor_log.al
-process !anylog_path/deployment-scripts/grpc/kubearmor/grpc_client.al
+

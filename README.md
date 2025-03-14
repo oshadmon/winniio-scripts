@@ -119,6 +119,10 @@ winnio-scripts
 <<
 ```
 
+3. In [grpc_client.py](grpc_client.al) validate the following params: 
+   * grpc_client_ip
+   * grpc_client_port
+
 3. Attach to EdgeLake container 
 ```shell
 cd $HOME/docker-compose 
@@ -126,3 +130,20 @@ make attach EDGELAKE_TYPE=operator
 ```
 
 4. Run gRPC client
+   * Create [policy](policy.al) if doesn't exist
+   * Connect to [gRPC client](grpc_client.al)
+```anylog
+process /app/winnio-scripts/grpc_client.al
+```
+
+5. Validate 
+```anylog
+# view active message client 
+get grpc clients  
+
+# see amount of data coming in 
+get streaming 
+
+# see data stored into Operator
+get operator
+```
