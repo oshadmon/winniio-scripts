@@ -1,10 +1,10 @@
 # WinniIO Scripts
 
-The following provides directions to deploying either a [Kafka]() or [gRPC]() consumer for WinniIO. 
+The following provides directions to deploying either a _Kafka_ or _gRPC_ consumer for WinniIO. 
 This document will cover: 
 1. adding repository as a docker volume 
-2. deploying Kafka consumer 
-3. deploying gRPC consumer 
+2. deploying _Kafka_ consumer 
+3. deploying _gRPC_ consumer 
 
 ### File Structure 
 ```tree
@@ -66,6 +66,62 @@ volumes:
 
 5. Start operator node 
 ```shell
+cd $HOME/docker-compose
 make up EDGELAKE_TYPE=operator
 ```
 
+## Deploy Kafka Consumer 
+1. Attach to EdgeLake container 
+```shell
+cd $HOME/docker-compose 
+make attach EDGELAKE_TYPE=operator
+```
+
+2. Execute Kafka consumer
+   * Create [policy](policy.al) if doesn't exist
+   * Connect to [Kafka consumer](kafka_consumer.al)
+```shell
+process /app/winnio-scripts/kafka_consumer.al
+``` 
+
+3. Validate data coming in 
+```anylog
+# view active message client 
+get msg client 
+
+# see amount of data coming in 
+get streaming 
+
+# see 
+```
+
+
+## Deploy gRPC Consumer
+1. Install python3 and requirements for compiling proto file
+```shell
+sudo apt-get -y install python3-pip 
+python3 -m pip install --upgrade pip 
+python3 -m pip install --upgrade -r ./requirements.txt 
+```
+
+2. Compile [protocol file](winniio.proto)
+```shell
+python3 $HOME/winniio-scripts/compile.py $HOME/winniio-scripts/winniio.proto
+
+<<COMMENT
+# Output
+winnio-scripts 
+├── compile.py <-- code to compile proto file
+├── winniio.proto <-- protocol file
+├── winniio_pb2.py <-- compiled protocol file 
+└── winniio_pb2_grpc.py <-- compiled protocol file 
+<<
+```
+
+3. Attach to EdgeLake container 
+```shell
+cd $HOME/docker-compose 
+make attach EDGELAKE_TYPE=operator
+```
+
+4. Run gRPC client
