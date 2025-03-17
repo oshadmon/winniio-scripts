@@ -93,17 +93,17 @@ message Rs485Feedback {
 service Greeter {
 
     // Server Streaming
-	rpc StreamingMessage (MessageRequest) returns (stream MessageReply);
+	rpc StreamingMessage (RequestMessage) returns (stream ReplyMessage);
 
 
 }
 
 // The request message containing the user's name.
-message MessageRequest {
+message RequestMessage {
   string message= 1;
 }
 
 // The response message containing the greetings.
-message MessageReply {
+message ReplyMessage {
   string message = 1;
 }
