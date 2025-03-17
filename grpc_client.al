@@ -3,15 +3,17 @@ on error ignore
 :set-params:
 grpc_client_ip = 172.30.121.45
 grpc_client_port = 50051
+grpc_name = winniio-grpc
 grpc_dir = /app/winniio-scripts
-grpc_proto = winniio
+grpc_proto = edgemain
 grpc_value = (message = all)
 grpc_limit = 0
 set grpc_ingest = true
 set grpc_debug = false
 
+
 grpc_service = Greeter
-grpc_request = MessageRequest
+grpc_request = RequestMessage
 grpc_function = StreamingMessage
 grpc_response = message
 
@@ -23,7 +25,7 @@ process  /app/winniio-scripts/policy.al
 on error goto grpc-client-error
 <run grpc client where
     ip = !grpc_client_ip and port = !grpc_client_port and
-    name = !policy_id and
+    name = !grpc_name and
     grpc_dir = !grpc_dir and
     proto = !grpc_proto and
     function = !grpc_function and
