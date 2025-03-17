@@ -32,11 +32,17 @@ json_message = []  # Global variable to store the latest JSON messages
 def read_from_tcp():
     """Reads data from the remote TCP port."""
     global json_message
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((TCP_IP, TCP_PORT))
-    except Exception as error:
-        raise Exception(error)
+    is_connected = False
+    while is_connected is False:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((TCP_IP, TCP_PORT))
+        except Exception as error:
+            print(f"Failed connecting against {TCP_IP}:{TCP_PORT}")
+            time.sleep(5)
+        else:
+            is_connected = True
+
     try:
         while True:
             data = s.recv(TCP_BUFFER_SIZE)  # Adjust the buffer size as needed
