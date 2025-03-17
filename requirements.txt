@@ -1,1 +1,4 @@
 grpcio-tools==1.70.0
+grpcio>=0.0
+protobuf>0.0
+python_dotenv>0.0
