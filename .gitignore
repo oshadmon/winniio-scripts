@@ -173,8 +173,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
+.DS_Store/
 
 ## compiled gRPC files
-winniio_pb2.py
-winniio_pb2_grpc.py
+*pb2*.py
+
