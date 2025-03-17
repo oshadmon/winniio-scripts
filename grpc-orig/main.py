@@ -1,20 +1,23 @@
 import os
 import socket
 import zlib
-import edgemain_pb2  # Generated Python file from the .proto
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.message import DecodeError
 import time
 import json
 import grpc
-import edgemain_pb2
+import edgemain_pb2 # Generated Python file from the .proto
 import edgemain_pb2_grpc    
 from dotenv import load_dotenv
 
 from concurrent import futures
 import threading
 
-load_dotenv()
+DOTENV = os.path.join(os.path.dirname(__file__), '.env')
+if not os.path.isfile(DOTENV):
+    raise FileNotFoundError(DOTENV)
+
+load_dotenv(DOTENV)
 # TCP connection parameters
 TCP_IP = os.getenv('TCP_IP')
 TCP_PORT = int(os.getenv('TCP_PORT'))
@@ -29,8 +32,11 @@ json_message = []  # Global variable to store the latest JSON messages
 def read_from_tcp():
     """Reads data from the remote TCP port."""
     global json_message
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((TCP_IP, TCP_PORT))
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((TCP_IP, TCP_PORT))
+    except Exception as error:
+        raise Exception(error)
     try:
         while True:
             data = s.recv(TCP_BUFFER_SIZE)  # Adjust the buffer size as needed

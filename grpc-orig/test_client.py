@@ -4,8 +4,13 @@ import grpc
 import time
 import json
 import os
+from dotenv import load_dotenv
 
+DOTENV = os.path.join(os.path.dirname(__file__), '.env')
+if not os.path.isfile(DOTENV):
+    raise FileNotFoundError(DOTENV)
 
+load_dotenv(DOTENV)
 # Function to run the gRPC client
 def run():
     TCP_IP_gRPC = os.getenv('GRPC_SERVER_IP')

@@ -1,9 +1,9 @@
 on error ignore
 
 :set-params:
-grpc_client_ip = 172.30.121.45
+grpc_client_ip = 10.0.0.228
 grpc_client_port = 50051
-grpc_name = winniio-grpc
+grpc_name = winniio-grpc1
 grpc_dir = /app/winniio-scripts
 grpc_proto = edgemain
 grpc_value = (message = all)
