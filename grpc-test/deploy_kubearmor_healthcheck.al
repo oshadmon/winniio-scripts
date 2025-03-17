@@ -18,7 +18,7 @@ on error ignore
 grpc_name = healthcheck1
 grpc_client_ip = 10.0.0.228
 grpc_client_port = 50051
-grpc_dir = !anylog_path/deployment-scripts/grpc/kubearmor/
+grpc_dir = !anylog_path/winniio-scripts/grpc-test
 grpc_proto = kubearmor
 grpc_function = HealthCheck
 grpc_request = NonceMessage
