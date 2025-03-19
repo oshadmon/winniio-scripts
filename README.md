@@ -14,7 +14,8 @@ winnio-scripts
 ├── grpc-test/ <-- health check to validate gRPC is working
 ├── compile.py <-- code to compile proto file
 ├── grpc_client.al <-- gRPC client 
-├── policy.al  <-- EdgeLake / AnyLog policy for mapping data, the same policy is used for both Kafaka and gRPC 
+├── lillestad_policy.al <-- sample policy used by lillestad project (gRPC)  
+├── pillback_policy.al <-- sample policy used by pillback (Kakfa)  
 ├── winniio.proto <-- protocol file
 └── kafka_consumer.al <-- kafka client
 ```
@@ -78,7 +79,83 @@ cd $HOME/docker-compose
 make attach EDGELAKE_TYPE=operator
 ```
 
-2. Execute Kafka consumer
+2. Declare Policy
+```anylog
+process /app/winnio-scripts/pillback_policy.al
+```
+
+**Sample Data**: 
+```json
+{
+  "id": "!policy_id",
+  "dbms": "!db_name",
+  "table": "!table_name",
+  "readings": [
+    {
+      "timestamp": "2025-03-08T03:59:28.135Z",
+      "sensor_id": "0ce1",
+      "type": "switchStatus",
+      "id": 34037676,
+      "sequence_number": 69,
+      "battery": 3.1,
+      "event_count": 11,
+      "humidity": "",
+      "temperature": "",
+      "temperatureUnit": "",
+      "switch": false,
+      "adcIn": "",
+      "adcMax": "",
+      "rs485": "",
+      "co2value": "",
+      "trackingId": 0,
+      "num_hops": 0,
+      "max_hops": 0
+    },
+    {
+      "timestamp": "2025-03-08T03:59:28.711Z",
+      "sensor_id": "1c06",
+      "type": "actuatorControl3",
+      "id": 34037677,
+      "sequence_number": 100,
+      "battery": 3.3,
+      "event_count": 0,
+      "humidity": "",
+      "temperature": "",
+      "temperatureUnit": "",
+      "switch": false,
+      "adcIn": "",
+      "adcMax": "",
+      "rs485": "0306000000000828",
+      "co2value": "",
+      "trackingId": 0,
+      "num_hops": 0,
+      "max_hops": 0
+    },
+    {
+      "timestamp": "2025-03-08T03:59:28.823Z",
+      "sensor_id": "1d4b",
+      "type": "actuatorControl3",
+      "id": 34037678,
+      "sequence_number": 101,
+      "battery": 3.3,
+      "event_count": 0,
+      "humidity": "",
+      "temperature": "",
+      "temperatureUnit": "",
+      "switch": false,
+      "adcIn": "",
+      "adcMax": "",
+      "rs485": "030600000e520db5",
+      "co2value": "",
+      "trackingId": 0,
+      "num_hops": 0,
+      "max_hops": 0
+    }
+  ]
+}
+```
+
+3. Execute Kafka consumer
    * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [Kafka consumer](kafka_consumer.al)
 ```shell
@@ -107,6 +184,8 @@ python3 -m pip install --upgrade -r ./requirements.txt
 ```
 
 2. Update [.env](grpc-orig/.env) with correct values
+   * TCP_IP / TCP_PORT - Connection for server against WinniIO 
+   * GRPC_SERVER_IP / GRPC_SERVER_PORT - Connection for client against server
 
 3. compile [edgemain.proto](grpc-orig/edgemain.proto) protocol file 
 ```shell
@@ -117,7 +196,7 @@ python3 compile.py grpc-orig/edgemain.proto
 * call [.env](grpc-orig/.env) directly 
 * clean try / catch behavior 
 ```shell
-python3 grpc-orig/test_server.py)
+python3 grpc-orig/test_server.py
 ```
 
 5. Run [test_client.py](grpc-orig/test_client.py) - changes made: 
@@ -125,8 +204,6 @@ python3 grpc-orig/test_server.py)
 ```shell
 python3 grpc-orig/test_client.py
 ```
-**Expect**: Data coming from server would be seen on client 
-**Actual**: Nothing comes from server / nothing sent to client
 
 
 ## Deploy gRPC Health Check
@@ -174,16 +251,7 @@ python3 -m pip install --upgrade -r ./requirements.txt
 
 2. Compile [protocol file](winniio.proto)
 ```shell
-python3 $HOME/winniio-scripts/compile.py $HOME/winniio-scripts/winniio.proto
-
-<<COMMENT
-# Output
-winnio-scripts 
-├── compile.py <-- code to compile proto file
-├── winniio.proto <-- protocol file
-├── winniio_pb2.py <-- compiled protocol file 
-└── winniio_pb2_grpc.py <-- compiled protocol file 
-<<
+python3 $HOME/winniio-scripts/compile.py $HOME/winniio-scripts/edgemain.proto
 ```
 
 3. In [grpc_client.py](grpc_client.al) validate the following params: 
@@ -196,14 +264,38 @@ cd $HOME/docker-compose
 make attach EDGELAKE_TYPE=operator
 ```
 
-4. Run gRPC client
+4. Create policy
+```anylog
+process /app/winnio-scripts/lilestad_policy.al
+```
+**Sample Data**: 
+```json
+{
+  "Sender": "PLB",
+  "sensorPayload": {
+    "sensorId": "4691",
+    "payloadType": "tempHumidityAdc",
+    "timestamp": "1742401868395",
+    "battery": 3.1,
+    "eventCount": 141,
+    "tempHumidity": {
+      "temperature": 21.28,
+      "humidity": 41.84,
+      "adcMax": "07ff",
+      "adcIn": "008f"
+    }
+  }
+}
+```
+s
+5. Run gRPC client
    * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [gRPC client](grpc_client.al)
 ```anylog
 process /app/winnio-scripts/grpc_client.al
 ```
 
-5. Validate 
+6. Validate 
 ```anylog
 # view active message client 
 get grpc clients  

@@ -4,7 +4,7 @@ on error ignore
 grpc_client_ip = 127.0.0.1
 grpc_client_port = 50051
 grpc_name = winniio-grpc1
-grpc_dir = /Users/orishadmon/winniio-scripts/
+grpc_dir = /app/winniio-scripts/
 grpc_proto = edgemain
 grpc_value = (message = all)
 grpc_limit = 0
