@@ -1,7 +1,7 @@
 on error ignore
 
 :set-params:
-policy_id = winnio_kafka_policy
+policy_id = pillback_policy
 db_name = winniio_db
 table_name =  pillback_sensors
 set create_policy = true

@@ -1,10 +1,10 @@
 on error ignore
 
 :set-params:
-grpc_client_ip = 10.0.0.228
+grpc_client_ip = 127.0.0.1
 grpc_client_port = 50051
 grpc_name = winniio-grpc1
-grpc_dir = /app/winniio-scripts
+grpc_dir = /Users/orishadmon/winniio-scripts/
 grpc_proto = edgemain
 grpc_value = (message = all)
 grpc_limit = 0
@@ -16,10 +16,6 @@ grpc_service = Greeter
 grpc_request = RequestMessage
 grpc_function = StreamingMessage
 grpc_response = message
-
-
-:set-policy:
-process  /app/winniio-scripts/policy.al
 
 :grpc-client:
 on error goto grpc-client-error

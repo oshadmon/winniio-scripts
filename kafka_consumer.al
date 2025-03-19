@@ -44,9 +44,6 @@ kafka_port = 9092
 kafka_reset = earliest
 topic = pilback.data
 
-:declare-policy:
-process  winnio-scripts/policy.al
-
 :run-policy:
 on error cal kafka-error
 <run kafka consumer where

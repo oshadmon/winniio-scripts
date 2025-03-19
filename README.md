@@ -79,7 +79,7 @@ make attach EDGELAKE_TYPE=operator
 ```
 
 2. Execute Kafka consumer
-   * Create [policy](policy.al) if doesn't exist
+   * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [Kafka consumer](kafka_consumer.al)
 ```shell
 process /app/winnio-scripts/kafka_consumer.al
@@ -197,7 +197,7 @@ make attach EDGELAKE_TYPE=operator
 ```
 
 4. Run gRPC client
-   * Create [policy](policy.al) if doesn't exist
+   * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [gRPC client](grpc_client.al)
 ```anylog
 process /app/winnio-scripts/grpc_client.al
