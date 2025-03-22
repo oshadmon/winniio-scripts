@@ -12,10 +12,10 @@ set grpc_ingest = true
 set grpc_debug = false
 
 
-grpc_service = Greeter
-grpc_request = RequestMessage
+grpc_service  = Greeter
+grpc_request  = RequestMessage
 grpc_function = StreamingMessage
-grpc_response = message
+grpc_response = ReplyMessage
 
 :grpc-client:
 on error goto grpc-client-error
