@@ -8,7 +8,7 @@ This document will cover:
 
 ### File Structure 
 ```tree
-winnio-scripts 
+winniio-scripts 
 ├── README.md
 ├── grpc-orig/ <-- origianl code from Grpc.zip  
 ├── grpc-test/ <-- health check to validate gRPC is working
@@ -81,7 +81,7 @@ make attach EDGELAKE_TYPE=operator
 
 2. Declare Policy
 ```anylog
-process /app/winnio-scripts/pillback_policy.al
+   process /app/winniio-scripts/pillback_policy.al
 ```
 
 **Sample Data**: 
@@ -112,7 +112,7 @@ process /app/winnio-scripts/pillback_policy.al
    * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [Kafka consumer](kafka_consumer.al)
 ```shell
-process /app/winnio-scripts/kafka_consumer.al
+process /app/winniio-scripts/kafka_consumer.al
 ``` 
 
 3. Validate data coming in 
@@ -219,7 +219,7 @@ make attach EDGELAKE_TYPE=operator
 
 4. Create policy
 ```anylog
-process /app/winnio-scripts/lilestad_policy.al
+process /app/winniio-scripts/lilestad_policy.al
 ```
 **Sample Data**: 
 ```json
@@ -245,7 +245,7 @@ s
    * Create [policy](pillback_policy.al) if doesn't exist
    * Connect to [gRPC client](grpc_client.al)
 ```anylog
-process /app/winnio-scripts/grpc_client.al
+process /app/winniio-scripts/grpc_client.al
 ```
 
 6. Validate 

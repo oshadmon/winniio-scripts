@@ -1,7 +1,7 @@
 on error ignore
 
 :set-params:
-grpc_client_ip = 127.0.0.1
+grpc_client_ip = 100.110.59.1
 grpc_client_port = 50051
 grpc_name = winniio-grpc1
 grpc_dir = /app/winniio-scripts/grpc-orig
